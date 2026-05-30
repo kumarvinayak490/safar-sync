@@ -1,0 +1,95 @@
+from django.urls import path
+
+from organizers.views import (
+    InternalAdminAssistedPaymentSetupView,
+    InternalAdminBookingDetailView,
+    InternalAdminOrganizerDetailView,
+    InternalAdminOrganizerListView,
+    InternalAdminProviderConnectionTestListCreateView,
+    InternalAdminSettlementReadinessConfirmView,
+    InternalAdminTripDetailView,
+)
+from internal_admin.views import (
+    InternalAdminDemandPageDetailView,
+    InternalAdminDemandPageListCreateView,
+    InternalAdminPaymentExceptionDetailView,
+    InternalAdminPaymentExceptionListView,
+    InternalAdminPaymentExceptionResolveView,
+    InternalAdminPlatformFeeStatementDetailView,
+    InternalAdminPlatformFeeStatementListCreateView,
+    InternalAdminShellView,
+)
+
+urlpatterns = [
+    path(
+        "organizers/",
+        InternalAdminOrganizerListView.as_view(),
+        name="internal-admin-organizer-list",
+    ),
+    path(
+        "organizers/<int:organizer_id>/",
+        InternalAdminOrganizerDetailView.as_view(),
+        name="internal-admin-organizer-detail",
+    ),
+    path(
+        "organizers/<int:organizer_id>/assisted-payment-setup/",
+        InternalAdminAssistedPaymentSetupView.as_view(),
+        name="internal-admin-assisted-payment-setup",
+    ),
+    path(
+        "organizers/<int:organizer_id>/settlement-readiness/confirm/",
+        InternalAdminSettlementReadinessConfirmView.as_view(),
+        name="internal-admin-settlement-readiness-confirm",
+    ),
+    path(
+        "organizers/<int:organizer_id>/provider-connection-tests/",
+        InternalAdminProviderConnectionTestListCreateView.as_view(),
+        name="internal-admin-provider-connection-tests",
+    ),
+    path(
+        "trips/<int:trip_id>/",
+        InternalAdminTripDetailView.as_view(),
+        name="internal-admin-trip-detail",
+    ),
+    path(
+        "bookings/<int:booking_id>/",
+        InternalAdminBookingDetailView.as_view(),
+        name="internal-admin-booking-detail",
+    ),
+    path("", InternalAdminShellView.as_view(), name="internal-admin-shell"),
+    path(
+        "platform-fee-statements/",
+        InternalAdminPlatformFeeStatementListCreateView.as_view(),
+        name="internal-admin-platform-fee-statement-list",
+    ),
+    path(
+        "platform-fee-statements/<int:statement_id>/",
+        InternalAdminPlatformFeeStatementDetailView.as_view(),
+        name="internal-admin-platform-fee-statement-detail",
+    ),
+    path(
+        "payment-exceptions/",
+        InternalAdminPaymentExceptionListView.as_view(),
+        name="internal-admin-payment-exception-list",
+    ),
+    path(
+        "payment-exceptions/<int:payment_exception_id>/",
+        InternalAdminPaymentExceptionDetailView.as_view(),
+        name="internal-admin-payment-exception-detail",
+    ),
+    path(
+        "payment-exceptions/<int:payment_exception_id>/resolve/",
+        InternalAdminPaymentExceptionResolveView.as_view(),
+        name="internal-admin-payment-exception-resolve",
+    ),
+    path(
+        "discovery-pages/",
+        InternalAdminDemandPageListCreateView.as_view(),
+        name="internal-admin-discovery-page-list",
+    ),
+    path(
+        "discovery-pages/<int:demand_page_id>/",
+        InternalAdminDemandPageDetailView.as_view(),
+        name="internal-admin-discovery-page-detail",
+    ),
+]

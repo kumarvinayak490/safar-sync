@@ -1,0 +1,4 @@
+from organizers.urls import TRIP_TRAVELER_PORTAL_URLPATTERNS
+
+urlpatterns = TRIP_TRAVELER_PORTAL_URLPATTERNS
+

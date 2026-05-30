@@ -1,0 +1,25 @@
+"""Compatibility imports for Trips-owned Trip Profile content activity helpers."""
+
+from trips.activity import (  # noqa: F401
+    CONFIRMATION_REQUIREMENT_FIELDS,
+    TripPackageSubmissionChange,
+    confirmation_requirements_snapshot,
+    payment_schedule_snapshot,
+    record_public_trip_page_published,
+    record_trip_confirmation_requirements_update_if_changed,
+    record_trip_description_update_if_changed,
+    record_trip_itinerary_update_if_changed,
+    record_trip_media_gallery_update_if_changed,
+    record_trip_media_upload,
+    record_trip_package_update_if_changed,
+    record_trip_payment_schedule_update_if_changed,
+    record_trip_profile_activity_log,
+    trip_itinerary_day_snapshot,
+    trip_itinerary_submission_snapshot,
+    trip_media_item_snapshot,
+    trip_media_submission_snapshot,
+    trip_package_snapshot,
+    trip_package_submission_change,
+    trip_profile_review_change_type,
+    trip_profile_section_change_type,
+)

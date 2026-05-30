@@ -1,0 +1,3 @@
+# Allow Review-Gated Manual Payments for Public Booking
+
+TripOS will allow public booking when at least one ready payment method exists, rather than requiring **Online Payment Readiness** specifically. Provider payments still require **Online Payment Readiness**, while QR-based manual payments require organizer-level **Manual Payment Instructions**, trip-level **Manual Payment Availability**, open **Booking Availability**, and sufficient capacity; manual payment submissions remain review-gated, so seats reserve only after an owner or operator approves or records the **Manual Payment**. This unblocks pilots where Razorpay OAuth or verification is delayed without treating uploaded payment proof as trusted collected money at the public conversion point.

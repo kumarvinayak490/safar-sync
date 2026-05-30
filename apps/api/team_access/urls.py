@@ -1,0 +1,4 @@
+from organizers.urls import ORGANIZER_TEAM_ACCESS_URLPATTERNS
+
+urlpatterns = ORGANIZER_TEAM_ACCESS_URLPATTERNS
+

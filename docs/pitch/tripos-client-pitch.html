@@ -1,0 +1,636 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>TripOS Client Pitch</title>
+    <style>
+      @page {
+        size: Letter;
+        margin: 0;
+      }
+
+      :root {
+        --canvas: #f8f4ee;
+        --paper: #fffdf9;
+        --ink: #201915;
+        --muted: #72665d;
+        --soft: #d8cdc2;
+        --brand: #8b4a2f;
+        --brand-dark: #562d1f;
+        --brand-soft: #f1e3da;
+        --green: #2f7a4f;
+        --green-soft: #e7f1eb;
+        --gold-soft: #f3ead6;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background: #e9e1d8;
+        color: var(--ink);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        letter-spacing: 0;
+      }
+
+      body {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .page {
+        width: 8.5in;
+        height: 11in;
+        margin: 0 auto;
+        padding: 0.58in 0.66in 0.46in;
+        background:
+          linear-gradient(180deg, rgba(255, 253, 249, 0.92), rgba(255, 253, 249, 0.96)),
+          var(--canvas);
+        page-break-after: always;
+        break-after: page;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .page::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-top: 6px solid var(--brand);
+        pointer-events: none;
+      }
+
+      .masthead,
+      .footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: var(--muted);
+        font-size: 9pt;
+        font-weight: 650;
+      }
+
+      .wordmark {
+        display: flex;
+        align-items: baseline;
+        gap: 7px;
+        color: var(--brand-dark);
+        font-size: 12pt;
+        font-weight: 850;
+      }
+
+      .wordmark span {
+        color: var(--muted);
+        font-size: 8.5pt;
+        font-weight: 650;
+      }
+
+      .pill {
+        border: 1px solid #d9b9a7;
+        border-radius: 999px;
+        background: #fff5ee;
+        color: var(--brand);
+        padding: 7px 12px;
+        font-size: 8.5pt;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      .footer {
+        margin-top: auto;
+        border-top: 1px solid var(--soft);
+        padding-top: 10px;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+      }
+
+      h1 {
+        max-width: 6.8in;
+        margin-top: 0.44in;
+        color: var(--ink);
+        font-size: 33pt;
+        line-height: 0.98;
+        font-weight: 880;
+      }
+
+      .cover h1 {
+        font-size: 36pt;
+        max-width: 7in;
+      }
+
+      .page:not(.cover) h1 {
+        margin-top: 0.38in;
+        font-size: 31pt;
+        line-height: 0.99;
+      }
+
+      .page:not(.cover) .subtitle {
+        margin-top: 0.13in;
+        font-size: 12.8pt;
+        line-height: 1.24;
+      }
+
+      h2 {
+        color: var(--brand-dark);
+        font-size: 18pt;
+        line-height: 1.05;
+        margin: 0.24in 0 0.11in;
+        font-weight: 850;
+      }
+
+      h3 {
+        color: var(--brand-dark);
+        font-size: 10.5pt;
+        line-height: 1.16;
+        margin-bottom: 5px;
+        font-weight: 850;
+      }
+
+      .subtitle {
+        max-width: 6.5in;
+        margin-top: 0.16in;
+        color: var(--muted);
+        font-size: 14pt;
+        line-height: 1.28;
+        font-weight: 520;
+      }
+
+      .lead {
+        color: var(--muted);
+        font-size: 10.5pt;
+        line-height: 1.38;
+        max-width: 6.9in;
+      }
+
+      .metrics {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        margin-top: 0.28in;
+      }
+
+      .metric {
+        min-height: 0.72in;
+        border: 1px solid #e2cabe;
+        border-radius: 8px;
+        background: var(--brand-soft);
+        padding: 12px 13px;
+      }
+
+      .label {
+        color: var(--brand);
+        font-size: 7.6pt;
+        font-weight: 850;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+      }
+
+      .value {
+        margin-top: 5px;
+        color: var(--ink);
+        font-size: 11.5pt;
+        line-height: 1.12;
+        font-weight: 800;
+      }
+
+      .problem-grid,
+      .success-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        margin-top: 0.16in;
+      }
+
+      .card {
+        border: 1px solid var(--soft);
+        border-radius: 8px;
+        background: var(--paper);
+        padding: 13px 14px;
+        min-height: 1.02in;
+      }
+
+      .card p,
+      .cap-card p,
+      .timeline p {
+        color: var(--muted);
+        font-size: 9.2pt;
+        line-height: 1.28;
+      }
+
+      .callout {
+        margin-top: 0.18in;
+        border: 1px solid #e1c5b4;
+        border-radius: 10px;
+        background: #fff3ec;
+        padding: 14px 16px;
+      }
+
+      .callout.green {
+        border-color: #b8d4c4;
+        background: var(--green-soft);
+      }
+
+      .callout p {
+        margin-top: 5px;
+        color: var(--ink);
+        font-size: 9.8pt;
+        line-height: 1.32;
+      }
+
+      .callout strong {
+        color: var(--brand);
+        font-size: 9.2pt;
+        text-transform: uppercase;
+      }
+
+      .callout.green strong {
+        color: var(--green);
+      }
+
+      .capability-table {
+        margin-top: 0.18in;
+        border: 1px solid var(--soft);
+        border-radius: 10px;
+        overflow: hidden;
+        background: var(--paper);
+      }
+
+      .cap-row {
+        display: grid;
+        grid-template-columns: 1.15in 2.55in 2.55in;
+        min-height: 0.5in;
+        border-bottom: 1px solid var(--soft);
+      }
+
+      .cap-row:last-child {
+        border-bottom: 0;
+      }
+
+      .cap-row.header {
+        min-height: 0.38in;
+        background: var(--brand-soft);
+      }
+
+      .cap-row > div {
+        padding: 8px 12px;
+        border-right: 1px solid var(--soft);
+      }
+
+      .cap-row > div:last-child {
+        border-right: 0;
+      }
+
+      .cap-row.header div {
+        color: var(--brand-dark);
+        font-size: 8.5pt;
+        font-weight: 850;
+        text-transform: uppercase;
+      }
+
+      .cap-name {
+        color: var(--brand-dark);
+        font-size: 8.9pt;
+        line-height: 1.18;
+        font-weight: 850;
+      }
+
+      .cap-text {
+        color: var(--muted);
+        font-size: 8.2pt;
+        line-height: 1.2;
+      }
+
+      .workflow {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px 12px;
+        margin-top: 0.15in;
+      }
+
+      .workflow div {
+        border: 1px solid var(--soft);
+        border-radius: 8px;
+        background: var(--paper);
+        padding: 9px 12px;
+        min-height: 0.5in;
+      }
+
+      .workflow span {
+        display: block;
+        color: var(--brand);
+        font-size: 7.5pt;
+        font-weight: 850;
+        text-transform: uppercase;
+        margin-bottom: 4px;
+      }
+
+      .workflow p {
+        color: var(--ink);
+        font-size: 9pt;
+        line-height: 1.25;
+      }
+
+      .timeline {
+        margin-top: 0.16in;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+      }
+
+      .timeline-card {
+        border: 1px solid #b8d4c4;
+        border-radius: 9px;
+        background: var(--paper);
+        padding: 12px;
+        min-height: 1.58in;
+      }
+
+      .timeline-card .label {
+        color: var(--green);
+      }
+
+      .timeline-card h3 {
+        color: var(--green);
+        margin-top: 6px;
+      }
+
+      .fit-box {
+        margin-top: 0.17in;
+        border: 1px solid #dfcaa0;
+        border-radius: 10px;
+        background: var(--gold-soft);
+        padding: 14px 16px;
+      }
+
+      .fit-box ul {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        margin: 8px 0 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .fit-box li {
+        color: var(--ink);
+        font-size: 9pt;
+        line-height: 1.25;
+        font-weight: 650;
+      }
+
+      .final-line {
+        margin-top: 0.2in;
+        padding-top: 0.17in;
+        border-top: 1px solid var(--soft);
+        color: var(--brand-dark);
+        font-size: 13.5pt;
+        line-height: 1.22;
+        font-weight: 850;
+        text-align: center;
+      }
+
+      @media print {
+        html,
+        body {
+          background: white;
+        }
+
+        .page {
+          margin: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <section class="page cover">
+      <div class="masthead">
+        <div class="wordmark">TripOS <span>Operations</span></div>
+        <div class="pill">Client pitch</div>
+      </div>
+
+      <h1>Stop running paid group trips on WhatsApp and Excel.</h1>
+      <p class="subtitle">
+        TripOS is operations and payments infrastructure for repeat community-led travel organizers in India.
+      </p>
+
+      <div class="metrics">
+        <div class="metric">
+          <div class="label">Built for</div>
+          <div class="value">Paid trips with 10-80 travelers</div>
+        </div>
+        <div class="metric">
+          <div class="label">Core promise</div>
+          <div class="value">Payments, readiness, reminders, exports</div>
+        </div>
+        <div class="metric">
+          <div class="label">Channel stance</div>
+          <div class="value">WhatsApp delivery, not chat ownership</div>
+        </div>
+      </div>
+
+      <h2>The client pain</h2>
+      <p class="lead">
+        Group-trip teams sell through Instagram, WhatsApp, and communities, then operate the trip across
+        payment links, screenshots, spreadsheets, forms, and chat follow-ups. The result is not just admin
+        work. It is operational risk before departure.
+      </p>
+
+      <div class="problem-grid">
+        <div class="card">
+          <h3>Payment confusion</h3>
+          <p>UPI screenshots, partial transfers, late payments, and unclear balances sit across chat, bank records, and spreadsheets.</p>
+        </div>
+        <div class="card">
+          <h3>Capacity uncertainty</h3>
+          <p>Seats appear available until someone reconciles who has actually paid the Reservation Amount.</p>
+        </div>
+        <div class="card">
+          <h3>Readiness chasing</h3>
+          <p>IDs, emergency contacts, travel logistics, and medical disclosures arrive late or get buried in threads.</p>
+        </div>
+        <div class="card">
+          <h3>Repeated coordination</h3>
+          <p>Pickup points, packing lists, reminders, and changes are manually resent across WhatsApp groups.</p>
+        </div>
+      </div>
+
+      <div class="callout">
+        <strong>Positioning</strong>
+        <p>
+          TripOS is not a travel marketplace, hotel engine, flight product, or WhatsApp clone. It is the system
+          of record for paid group-trip operations: bookings, money, readiness, reminders, and exports.
+        </p>
+      </div>
+
+      <div class="footer">
+        <span>TripOS client pitch</span>
+        <span>1 / 3</span>
+      </div>
+    </section>
+
+    <section class="page">
+      <div class="masthead">
+        <div class="wordmark">TripOS <span>Operations</span></div>
+        <div class="pill">What the organizer gets</div>
+      </div>
+
+      <h1>A control room for paid group-trip operations.</h1>
+      <p class="subtitle">
+        The Organizer is the business, community, or brand that owns trips, payment setup, traveler records,
+        and payout identity. Owners and Operators work from the same operational truth.
+      </p>
+
+      <div class="capability-table">
+        <div class="cap-row header">
+          <div>Capability</div>
+          <div>What TripOS manages</div>
+          <div>Client outcome</div>
+        </div>
+        <div class="cap-row">
+          <div class="cap-name">Trip launch</div>
+          <div class="cap-text">Public Trip Page, packages, capacity, Booking Availability, and launch checklist.</div>
+          <div class="cap-text">A professional booking entry point without pretending to be a marketplace.</div>
+        </div>
+        <div class="cap-row">
+          <div class="cap-name">Booking control</div>
+          <div class="cap-text">Booking Contact, Traveler Slots, Reservation Amount, Reserved and Confirmed booking states.</div>
+          <div class="cap-text">Seats are reserved only when the full booking reservation threshold is collected.</div>
+        </div>
+        <div class="cap-row">
+          <div class="cap-name">Money tracking</div>
+          <div class="cap-text">Provider Payments, approved Manual Payments, Financial Ledger, adjustments, and Payment Acknowledgements.</div>
+          <div class="cap-text">The team knows who paid, who owes, and what changed.</div>
+        </div>
+        <div class="cap-row">
+          <div class="cap-name">Readiness</div>
+          <div class="cap-text">Confirmation Requirements for documents, logistics, emergency contact, medical disclosure, and identity fields.</div>
+          <div class="cap-text">Bookings are confirmed only when operationally ready to travel.</div>
+        </div>
+        <div class="cap-row">
+          <div class="cap-name">Operations</div>
+          <div class="cap-text">Reminders, Announcements, Activity Log, and CSV Operational Export.</div>
+          <div class="cap-text">Less repeating, cleaner vendor handoff, and fewer day-before surprises.</div>
+        </div>
+      </div>
+
+      <h2>The workflow clients understand immediately</h2>
+      <div class="workflow">
+        <div>
+          <span>1. Create</span>
+          <p>Create a paid Trip with packages, capacity, dates, and Reservation Amount.</p>
+        </div>
+        <div>
+          <span>2. Open</span>
+          <p>Open booking only when payment setup is ready, while still supporting approved manual payments.</p>
+        </div>
+        <div>
+          <span>3. Reserve</span>
+          <p>Reserve all travelers in a booking together only after the full reservation amount is collected.</p>
+        </div>
+        <div>
+          <span>4. Confirm</span>
+          <p>Confirm bookings manually once documents, logistics, and other requirements are satisfied.</p>
+        </div>
+      </div>
+
+      <div class="callout green">
+        <strong>Why this matters</strong>
+        <p>
+          The organizer sees active reserved travelers, unpaid balances, overdue money, missing requirements,
+          manual payment approvals, and operational exports without rebuilding the spreadsheet every day.
+        </p>
+      </div>
+
+      <div class="footer">
+        <span>TripOS client pitch</span>
+        <span>2 / 3</span>
+      </div>
+    </section>
+
+    <section class="page">
+      <div class="masthead">
+        <div class="wordmark">TripOS <span>Operations</span></div>
+        <div class="pill">Suggested pilot</div>
+      </div>
+
+      <h1>Run one upcoming paid trip through TripOS.</h1>
+      <p class="subtitle">
+        The best pilot customer is already selling repeat paid trips and currently coordinating payments and
+        readiness through WhatsApp, Excel, Google Forms, and bank/payment records.
+      </p>
+
+      <div class="timeline">
+        <div class="timeline-card">
+          <div class="label">Week 1</div>
+          <h3>Set up</h3>
+          <p>Configure one paid Trip, packages, Reservation Amount, payment setup status, and Confirmation Requirements.</p>
+        </div>
+        <div class="timeline-card">
+          <div class="label">Week 2</div>
+          <h3>Collect</h3>
+          <p>Open booking, collect provider payments or approved manual payments, and issue acknowledgements.</p>
+        </div>
+        <div class="timeline-card">
+          <div class="label">Week 3</div>
+          <h3>Prepare</h3>
+          <p>Use reminders for balance due and missing requirements, then review readiness before confirmation.</p>
+        </div>
+        <div class="timeline-card">
+          <div class="label">Week 4</div>
+          <h3>Operate</h3>
+          <p>Run announcements and export the operational CSV for vendors, internal teams, and ground staff.</p>
+        </div>
+      </div>
+
+      <div class="fit-box">
+        <h3>Ideal client fit</h3>
+        <ul>
+          <li>Runs repeat paid trips, treks, retreats, or community experiences.</li>
+          <li>Handles 10-80 travelers per trip with deposits or staged payments.</li>
+          <li>Currently depends on WhatsApp, Excel, forms, and payment screenshots.</li>
+        </ul>
+      </div>
+
+      <h2>Success signals</h2>
+      <div class="success-grid">
+        <div class="card">
+          <h3>Payment clarity</h3>
+          <p>Collected balance, due balance, overdue bookings, and refund due cases are visible without manual reconciliation.</p>
+        </div>
+        <div class="card">
+          <h3>Readiness clarity</h3>
+          <p>Missing traveler documents and operational requirements are visible before the trip start date.</p>
+        </div>
+        <div class="card">
+          <h3>Capacity control</h3>
+          <p>Available seats derive from capacity minus active reserved travelers, preventing overbooking before money is collected.</p>
+        </div>
+        <div class="card">
+          <h3>Cleaner handoff</h3>
+          <p>The operations team can export the trip data needed for offline, vendor, and ground-team execution.</p>
+        </div>
+      </div>
+
+      <p class="final-line">
+        TripOS helps trip organizers spend less time reconciling chaos and more time running the experience.
+      </p>
+
+      <div class="footer">
+        <span>TripOS client pitch</span>
+        <span>3 / 3</span>
+      </div>
+    </section>
+  </body>
+</html>

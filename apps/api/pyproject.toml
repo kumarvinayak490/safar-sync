@@ -1,0 +1,52 @@
+[project]
+name = "tripos-api"
+version = "0.1.0"
+description = "TripOS Django DRF API"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "dj-database-url>=2.3.0",
+    "django>=5.1,<5.2",
+    "djangorestframework>=3.15.2,<3.16",
+    "psycopg[binary]>=3.2.3",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.4",
+    "pytest-django>=4.9.0",
+    "ruff>=0.8.4",
+]
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "tripos_api.settings"
+python_files = ["tests.py", "test_*.py", "*_tests.py"]
+
+[tool.setuptools.packages.find]
+include = [
+    "creative_setup*",
+    "health*",
+    "internal_admin*",
+    "organizer_media*",
+    "organizer_payments*",
+    "organizer_policies*",
+    "organizer_profile*",
+    "organizers*",
+    "public_discovery*",
+    "team_access*",
+    "trip_bookings*",
+    "trip_operations*",
+    "trip_payments*",
+    "trip_travelers*",
+    "tripos_api*",
+    "trips*",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+extend-exclude = ["*/migrations/*.py"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "DJ"]
+ignore = ["DJ008"]

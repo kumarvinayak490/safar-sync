@@ -1,0 +1,3 @@
+from organizers.urls import ORGANIZER_PROFILE_URLPATTERNS
+
+urlpatterns = ORGANIZER_PROFILE_URLPATTERNS

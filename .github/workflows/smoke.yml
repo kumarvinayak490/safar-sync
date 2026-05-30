@@ -1,0 +1,62 @@
+name: Smoke
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: tripos
+          POSTGRES_USER: tripos
+          POSTGRES_PASSWORD: tripos
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U tripos -d tripos"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v5
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+          cache-dependency-path: apps/web/pnpm-lock.yaml
+
+      - name: Install backend dependencies
+        run: uv sync --project apps/api
+
+      - name: Install frontend dependencies
+        run: pnpm --dir apps/web install
+
+      - name: Run smoke checks
+        env:
+          DATABASE_URL: postgres://tripos:tripos@localhost:5432/tripos
+          REDIS_URL: redis://localhost:6379/0
+          DJANGO_SECRET_KEY: ci-smoke-secret
+        run: scripts/smoke.sh

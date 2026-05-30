@@ -1,0 +1,5 @@
+# Use Connected Provider Accounts for MVP Payments
+
+TripOS will use SquadTrip-style **Connected Provider Accounts** for MVP payments: each Organizer owns and verifies its own payment provider account, then authorizes TripOS to create payment attempts and read provider-confirmed payments. This avoids TripOS becoming the money-moving or KYC-owning platform in the MVP, while still letting TripOS own the payment operations experience around readiness gates, booking payment attempts, reconciliation, refunds, and public booking state.
+
+TripOS will use Razorpay first, prefer OAuth Provider Authorization, allow API Key Provider Authorization only as a pilot fallback, and keep Manual Payments available for pilots or organizers whose provider verification is delayed. The Public Trip URL can serve as the Provider Verification URL for creator-led organizers. A future marketplace/split-provider model can be reconsidered later, but the MVP will not require provider linked accounts, TripOS custody, retained KYC documents, or provider split settlement for TripOS platform fees.
